@@ -1,0 +1,10 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+#include "Generated.xcconfig"
+
+// Google Sign-In Configuration
+// Create a Local.xcconfig file with your actual client ID values
+// Local.xcconfig is git-ignored for security
+GOOGLE_CLIENT_ID = YOUR_CLIENT_ID_HERE
+GOOGLE_REVERSED_CLIENT_ID = YOUR_REVERSED_CLIENT_ID_HERE
+
+#include? "Local.xcconfig"
