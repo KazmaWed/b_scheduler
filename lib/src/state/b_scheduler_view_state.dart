@@ -195,6 +195,12 @@ class BSchedulerViewState {
       itemsOverlayTop != 0 && itemsOverlayBottom != 0 && itemsOverlayTop < itemsOverlayBottom;
   Timer? refreshTimer;
 
+  // -------------------- ロード状態管理 --------------------
+
+  DateTime? loadingRangeStart;
+  DateTime? loadingRangeEnd;
+  final Set<DateTime> loadedWeeks = {}; // ロード完了した週の月曜日を格納
+
   // -------------------- アニメーション --------------------
 
   late Animation<double> heightAnimation;
@@ -219,6 +225,38 @@ class BSchedulerViewState {
   double get animatedHeight => isAnimating ? heightAnimation.value : currentHeight;
 
   // -------------------- メソッド --------------------
+
+  // 週のロード状態判定
+  bool isWeekLoading(DateTime monday) {
+    // ロード対象範囲に含まれているかチェック
+    if (loadingRangeStart == null || loadingRangeEnd == null) {
+      return false;
+    }
+
+    final weekStart = monday;
+    final weekEnd = monday.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
+
+    // ロード対象範囲に含まれているか
+    final isInRange = weekStart.isBefore(loadingRangeEnd!) && weekEnd.isAfter(loadingRangeStart!);
+
+    // まだロード完了していないか
+    final notLoaded = !loadedWeeks.contains(monday);
+
+    return isInRange && notLoaded;
+  }
+
+  // 週のロード完了をマーク
+  void markWeekAsLoaded(DateTime monday) {
+    loadedWeeks.add(monday);
+    onStateChanged();
+  }
+
+  // ロード対象範囲を更新
+  void updateLoadingRange(DateTime start, DateTime end) {
+    loadingRangeStart = start;
+    loadingRangeEnd = end;
+    onStateChanged();
+  }
 
   // ビューポートサイズ更新
   void updateViewportSize(Size newSize) {

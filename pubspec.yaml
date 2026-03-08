@@ -1,6 +1,6 @@
 name: b_scheduler
 description: A highly customizable Flutter scheduler widget with intuitive pinch-to-zoom gestures, seamless infinite scrolling, and multiple view modes (day, week, month). Features smooth timeline layouts and supports custom data sources including Google Calendar integration.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/KazmaWed/b_scheduler
 repository: https://github.com/KazmaWed/b_scheduler
 
