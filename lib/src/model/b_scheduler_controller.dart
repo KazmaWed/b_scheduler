@@ -155,10 +155,23 @@ class BSchedulerViewController {
   void loadItems() {
     final viewState = state;
     if (viewState == null) return;
+
+    // ロード対象範囲を更新
+    viewState.updateLoadingRange(viewState.topDate, viewState.bottomDate);
+
     onRangeChanged(viewState.topDate, viewState.bottomDate).then((items) {
       final sortedItems = List<BSchedulerItem>.from(items)
         ..sort((a, b) => a.startTime.compareTo(b.startTime));
       viewState.items = sortedItems.toSlotInfo();
+
+      // ロード完了した週を更新
+      DateTime currentMonday = DateTimeUtil.lastMonday(viewState.topDate);
+      final endDate = viewState.bottomDate;
+      while (currentMonday.isBefore(endDate) || currentMonday.isAtSameMomentAs(endDate)) {
+        viewState.markWeekAsLoaded(currentMonday);
+        currentMonday = currentMonday.add(const Duration(days: 7));
+      }
+
       viewState.onStateChanged();
     });
   }

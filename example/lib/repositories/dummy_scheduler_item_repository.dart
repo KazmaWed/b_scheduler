@@ -1,4 +1,7 @@
 // ignore: depend_on_referenced_packages
+import 'dart:math';
+
+// ignore: depend_on_referenced_packages
 import 'package:b_scheduler/b_scheduler.dart';
 import 'package:example/repositories/scheduler_item_repository.dart';
 
@@ -71,6 +74,9 @@ class DummySchedulerItemRepository implements SchedulerItemRepository {
       final item = generateByDatetime(datetime);
       if (item != null) items.add(item);
     }
+
+    final randomMillisec = Random().nextInt(400) + 100;
+    await Future.delayed(Duration(milliseconds: randomMillisec));
 
     return items;
   }

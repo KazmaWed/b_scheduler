@@ -25,8 +25,6 @@ class BSchedulerWeekRows extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!visible) return const SizedBox.shrink();
-    final days = (viewState.items ?? {}).keys.map((e) => e.startTime.to12am()).toSet().toList()
-      ..sort((a, b) => a.compareTo(b));
 
     final style = this.style ?? const BSchedulerStyle();
     final alpha = opacity.toAlpha();
@@ -165,11 +163,10 @@ class BSchedulerWeekRows extends StatelessWidget {
               ),
               child: Builder(
                 builder: (context) {
-                  // TODO: アイテムの有無ではなく読み込み処理の状態で判定する
-                  final thuesday = monday.add(const Duration(days: 3));
-                  final loaded = days.contains(thuesday);
+                  // ロード対象の日付に含まれていて、まだロードが完了していない場合にインジケータを表示
+                  final isLoading = viewState.isWeekLoading(monday);
 
-                  return !loaded && viewState.currentMode.unit == BSchedulerItemDividerUnit.week
+                  return isLoading && viewState.currentMode.unit == BSchedulerItemDividerUnit.week
                       // ロード中 (ただしモード遷移中以外) はくるくる表示
                       ? Align(
                           alignment: Alignment.topCenter,
@@ -180,9 +177,7 @@ class BSchedulerWeekRows extends StatelessWidget {
                             ),
                           ),
                         )
-                      : !loaded
-                      ? SizedBox.shrink()
-                      : SizedBox.shrink();
+                      : const SizedBox.shrink();
                 },
               ),
             ),
