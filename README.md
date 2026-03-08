@@ -33,7 +33,7 @@ Add `b_scheduler` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  b_scheduler: ^0.0.1
+  b_scheduler: ^0.0.2
 ```
 
 Then run:
