@@ -4,6 +4,16 @@ import 'package:b_scheduler/src/model/b_scheduler_item.dart';
 import 'package:b_scheduler/src/model/b_scheduler_style.dart';
 import 'package:b_scheduler/src/state/b_scheduler_view_state.dart';
 import 'package:b_scheduler/src/utils/double_extension.dart';
+import 'package:b_scheduler/src/components/items/b_scheduler_vertical_timeline_detail_item.dart';
+
+typedef BSchedulerVerticalDetailItemBuilder =
+    Widget Function(
+      BuildContext context,
+      BSchedulerItem item,
+      BSchedulerStyle style,
+      int alpha,
+      VoidCallback onTap,
+    );
 
 /// 縦スクロール表示 (日単位) - アイテムの表示
 class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
@@ -12,6 +22,7 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
   final BSchedulerViewState viewState;
   final BSchedulerStyle? style;
   final void Function(BSchedulerItem) onTapItem;
+  final BSchedulerVerticalDetailItemBuilder? detailItemBuilder;
 
   const BSchedulerVerticalTimelineDetailItems({
     super.key,
@@ -20,6 +31,7 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
     required this.viewState,
     this.style,
     required this.onTapItem,
+    this.detailItemBuilder,
   });
 
   @override
@@ -28,9 +40,6 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
 
     final style = this.style ?? const BSchedulerStyle();
     final alpha = opacity.toAlpha();
-    final textStyle = style.detailItemTextStyle;
-    final itemColor = style.getPrimaryContainerColorWithAlpha(context, alpha);
-    final textStyleWithOpacity = textStyle.copyWith(color: textStyle.color!.withAlpha(alpha));
 
     final leftPadding = style.verticalScrollDateColumnWidth + style.verticalScrollTimeColumnWidth;
     final contentWidth = viewState.viewportWidth - leftPadding;
@@ -99,51 +108,14 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
                 left: left,
                 width: itemWidth,
                 height: height,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(style.detailItemBorderRadius),
-                      color: itemColor,
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(style.detailItemBorderRadius),
+                child:
+                    detailItemBuilder?.call(context, item, style, alpha, () => onTapItem(item)) ??
+                    BSchedulerVerticalTimelineDetailItem(
+                      item: item,
+                      style: style,
+                      alpha: alpha,
                       onTap: () => onTapItem(item),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Wrap(
-                          alignment: WrapAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          spacing: 4,
-                          runSpacing: -4,
-                          children: [
-                            // 開始時間
-                            Text(
-                              '${item.startHourString}:${item.startMinuteString}',
-                              style: textStyleWithOpacity,
-                              overflow: TextOverflow.visible,
-                              maxLines: 1,
-                            ),
-                            Text('-', style: textStyleWithOpacity),
-                            // 終了時間
-                            Text(
-                              '${item.endHourString}:${item.endMinuteString}',
-                              style: textStyleWithOpacity,
-                              overflow: TextOverflow.visible,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              item.title,
-                              style: textStyleWithOpacity,
-                              overflow: TextOverflow.visible,
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                  ),
-                ),
               );
             },
           ),

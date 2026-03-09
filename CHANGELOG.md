@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Add customizable `detailItemBuilder` parameter to allow custom detail item widgets
+
 ## 0.0.2
 
 * Add loading state management for week view

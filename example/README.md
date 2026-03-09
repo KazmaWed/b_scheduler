@@ -1,3 +1,24 @@
+# B Scheduler Example
+
+This example demonstrates how to use the B Scheduler widget in a Flutter application.
+
+## Overview
+
+This example shows:
+- Basic integration of BSchedulerView
+- Custom repository pattern for data loading
+- Mode switching UI controls
+- Navigation controls (previous/today/next)
+
+## Running the Example
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Full Code Example
+
 ```main.dart
 import 'package:flutter/material.dart';
 import 'package:b_scheduler/b_scheduler.dart';
@@ -224,3 +245,22 @@ class SchedulerItemRepository {
   }
 }
 ```
+
+## Key Features Demonstrated
+
+1. **View Mode Switching**: Seamless transitions between day, week, and month views
+2. **Custom Data Source**: Integration with a repository pattern
+3. **Item Interaction**: Tap handling for scheduler items
+4. **Navigation Controls**: Previous, today, and next screen navigation
+5. **Responsive UI**: Custom overlay controls that work with the scheduler
+
+## Further Customization
+
+You can extend this example by:
+- Implementing real API integration in the repository
+- Adding item details dialog on tap
+- Customizing the scheduler style with `BSchedulerStyle`
+- Adding item creation/editing functionality
+- Integrating with calendar services (Google Calendar, etc.)
+
+For more information, see the main [README](../README.md).
