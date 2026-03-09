@@ -1,3 +1,12 @@
+## 0.0.4
+
+* **BREAKING CHANGE**: Simplify `BSchedulerDetailItemBuilder` typedef signature
+  - Removed `BSchedulerStyle style` and `int alpha` parameters
+  - New signature: `Widget Function(BuildContext context, BSchedulerItem item, VoidCallback onTap)`
+  - Users should access style from outer scope if needed
+* Move `BSchedulerDetailItemBuilder` typedef to `BSchedulerView` for better API organization
+* Remove unused variables in detail items widget
+
 ## 0.0.3
 
 * Add customizable `detailItemBuilder` parameter to allow custom detail item widgets
