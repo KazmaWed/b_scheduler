@@ -13,12 +13,14 @@ class BSchedulerView extends StatefulWidget {
   final BSchedulerViewController controller;
   final bool debugView;
   final void Function(BSchedulerItem) onTapItem;
+  final BSchedulerVerticalDetailItemBuilder? detailItemBuilder;
 
   const BSchedulerView({
     super.key,
     required this.controller,
     this.debugView = false,
     required this.onTapItem,
+    this.detailItemBuilder,
   });
 
   @override
@@ -89,6 +91,7 @@ class _BSchedulerViewState extends State<BSchedulerView> with SingleTickerProvid
                                   viewState: viewState,
                                   style: style,
                                   onTapItem: widget.onTapItem,
+                                  detailItemBuilder: widget.detailItemBuilder,
                                 ),
                                 BSchedulerVerticalTimelineOverviewItems(
                                   visible: viewState.dayOverviewOpacity > 0.5,
