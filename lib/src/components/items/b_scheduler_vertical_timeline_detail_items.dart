@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:b_scheduler/src/b_scheduler_view.dart';
+import 'package:b_scheduler/src/components/items/b_scheduler_vertical_timeline_detail_item.dart';
 import 'package:b_scheduler/src/model/b_scheduler_item.dart';
 import 'package:b_scheduler/src/model/b_scheduler_style.dart';
 import 'package:b_scheduler/src/state/b_scheduler_view_state.dart';
 import 'package:b_scheduler/src/utils/double_extension.dart';
-import 'package:b_scheduler/src/components/items/b_scheduler_vertical_timeline_detail_item.dart';
-
-typedef BSchedulerVerticalDetailItemBuilder =
-    Widget Function(
-      BuildContext context,
-      BSchedulerItem item,
-      BSchedulerStyle style,
-      int alpha,
-      VoidCallback onTap,
-    );
 
 /// 縦スクロール表示 (日単位) - アイテムの表示
 class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
@@ -22,7 +14,7 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
   final BSchedulerViewState viewState;
   final BSchedulerStyle? style;
   final void Function(BSchedulerItem) onTapItem;
-  final BSchedulerVerticalDetailItemBuilder? detailItemBuilder;
+  final BSchedulerDetailItemBuilder? detailItemBuilder;
 
   const BSchedulerVerticalTimelineDetailItems({
     super.key,
@@ -109,7 +101,7 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
                 width: itemWidth,
                 height: height,
                 child:
-                    detailItemBuilder?.call(context, item, style, alpha, () => onTapItem(item)) ??
+                    detailItemBuilder?.call(context, item, () => onTapItem(item)) ??
                     BSchedulerVerticalTimelineDetailItem(
                       item: item,
                       style: style,

@@ -9,11 +9,17 @@ import 'package:b_scheduler/src/model/b_scheduler_controller.dart';
 import 'package:b_scheduler/src/model/b_scheduler_item.dart';
 import 'package:b_scheduler/src/state/b_scheduler_view_state.dart';
 
+typedef BSchedulerDetailItemBuilder = Widget Function(
+  BuildContext context,
+  BSchedulerItem item,
+  VoidCallback onTap,
+);
+
 class BSchedulerView extends StatefulWidget {
   final BSchedulerViewController controller;
   final bool debugView;
   final void Function(BSchedulerItem) onTapItem;
-  final BSchedulerVerticalDetailItemBuilder? detailItemBuilder;
+  final BSchedulerDetailItemBuilder? detailItemBuilder;
 
   const BSchedulerView({
     super.key,
