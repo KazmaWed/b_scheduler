@@ -40,9 +40,6 @@ class BSchedulerVerticalTimelineDetailItems extends StatelessWidget {
 
     final style = this.style ?? const BSchedulerStyle();
     final alpha = opacity.toAlpha();
-    final textStyle = style.detailItemTextStyle;
-    final itemColor = style.getPrimaryContainerColorWithAlpha(context, alpha);
-    final textStyleWithOpacity = textStyle.copyWith(color: textStyle.color!.withAlpha(alpha));
 
     final leftPadding = style.verticalScrollDateColumnWidth + style.verticalScrollTimeColumnWidth;
     final contentWidth = viewState.viewportWidth - leftPadding;
