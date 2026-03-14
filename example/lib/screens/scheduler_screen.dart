@@ -21,10 +21,15 @@ class SchedulerScreen extends StatefulWidget {
 }
 
 class _SchedulerScreenState extends State<SchedulerScreen> {
-
   late final BSchedulerViewController controller = BSchedulerViewController(
     onRangeChanged: (start, end) => widget.repository.getItems(from: start, to: end),
   );
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
@@ -35,6 +40,7 @@ class _SchedulerScreenState extends State<SchedulerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text(controller.visibleYears.join(' - '))),
       body: Stack(
         children: [
           // スケジューラ本体

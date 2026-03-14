@@ -23,6 +23,9 @@ class BSchedulerViewController {
   // ViewStateへの参照（内部実装の詳細 - 外部から直接アクセスしない）
   BSchedulerViewState? _state;
 
+  // 外部リスナー（ScrollControllerパターン）
+  final List<VoidCallback> _listeners = [];
+
   // 内部アクセス用getter
   BSchedulerViewState? get state => _state;
 
@@ -59,10 +62,12 @@ class BSchedulerViewController {
       behaviorConfig: behaviorConfig,
       onStartAnimation: _startAnimation,
     );
+
+    // 既存のリスナーを登録
+    _attachListeners();
   }
 
   // -------------------- 公開API --------------------
-  // 外部コードは以下のメソッド/getterのみを使用してください
 
   /// アニメーション実行中かどうか
   bool get isAnimating => state?.isAnimating ?? false;
@@ -78,6 +83,43 @@ class BSchedulerViewController {
 
   /// 現在モードのValueNotifier（UI監視用）
   ValueNotifier<BSchedulerMode>? get currentModeNotifier => state?.currentModeNotifier;
+
+  /// フォーカス中の日付（スクロール位置に応じて自動更新）
+  DateTime get focusedDate => state?.focusedDate ?? baseDate;
+
+  /// スクロール位置が変更されたときに呼ばれるリスナーを追加
+  void addListener(VoidCallback listener) {
+    _listeners.add(listener);
+    state?.scrollOffsetNotifier.addListener(listener);
+  }
+
+  /// リスナーを削除
+  void removeListener(VoidCallback listener) {
+    _listeners.remove(listener);
+    state?.scrollOffsetNotifier.removeListener(listener);
+  }
+
+  /// 内部: すべての外部リスナーをscrollOffsetNotifierに登録
+  void _attachListeners() {
+    for (final listener in _listeners) {
+      state?.scrollOffsetNotifier.addListener(listener);
+    }
+  }
+
+  DateTime get visibleFirstDate {
+    final offset = state?.scrollOffsetNotifier.value ?? 0.0;
+    final index = (offset / (state?.animatedHeight ?? 1)).floor();
+    return state?.startDate.add(Duration(days: index)) ?? baseDate;
+  }
+
+  DateTime get visibleLastDate {
+    final viewportHeight = state?.viewportHeight ?? 0.0;
+    final offset = (state?.scrollOffsetNotifier.value ?? 0.0) + viewportHeight;
+    final index = (offset / (state?.animatedHeight ?? 1)).floor();
+    return state?.startDate.add(Duration(days: index)) ?? baseDate;
+  }
+
+  Set<int> get visibleYears => {visibleFirstDate.year, visibleLastDate.year};
 
   /// 今日の日付にスクロール
   void scrollToToday() {
