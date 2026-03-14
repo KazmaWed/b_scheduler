@@ -1,5 +1,20 @@
 # B Scheduler
 
+<p align="center">
+  <a href="https://flutter.dev">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter"
+      alt="Platform" />
+  </a>
+  <a href="https://pub.dartlang.org/packages/b_scheduler">
+    <img src="https://img.shields.io/pub/v/b_scheduler.svg"
+      alt="Pub Package" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/github/license/aagarwal1012/animated-text-kit"
+      alt="License: MIT" />
+  </a>
+</p>
+
 A custom Flutter scheduler widget with intuitive pinch-to-zoom gestures, seamless infinite scrolling, and multiple view modes (day, week, month). Features smooth timeline layouts and supports custom data sources including Google Calendar integration.
 
 <img src="screenshots/screenshot_04.gif" alt="Demo" width="300"/>
@@ -33,7 +48,7 @@ Add `b_scheduler` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  b_scheduler: ^0.0.4
+  b_scheduler: ^0.0.5
 ```
 
 Then run:

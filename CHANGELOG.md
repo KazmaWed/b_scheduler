@@ -1,30 +1,25 @@
+## 0.0.5
+
+* FEAT: Add `addListener` and `removeListener` methods to `BSchedulerViewController`
+
 ## 0.0.4
 
-* **BREAKING CHANGE**: Simplify `BSchedulerDetailItemBuilder` typedef signature
+* **BREAKING**: Simplify `BSchedulerDetailItemBuilder` typedef signature
   - Removed `BSchedulerStyle style` and `int alpha` parameters
   - New signature: `Widget Function(BuildContext context, BSchedulerItem item, VoidCallback onTap)`
-  - Users should access style from outer scope if needed
-* Move `BSchedulerDetailItemBuilder` typedef to `BSchedulerView` for better API organization
-* Remove unused variables in detail items widget
 
 ## 0.0.3
 
-* Add customizable `detailItemBuilder` parameter to allow custom detail item widgets
+* FEAT: Add customizable `detailItemBuilder` parameter
 
 ## 0.0.2
 
-* Add loading state management for week view
-* Improve loading indicator to use actual load state instead of item presence check
-* Add `isWeekLoading()`, `markWeekAsLoaded()`, and `updateLoadingRange()` methods to `BSchedulerViewState`
-* Enhance `BSchedulerViewController.loadItems()` with loading range tracking
+* FIX: Improve loading indicator behavior
 
 ## 0.0.1
 
-* Initial release
-* Multiple view modes: day, week, and month views
-* Intuitive pinch-to-zoom gestures for seamless mode transitions
-* Seamless infinite scrolling across all view modes
-* Smooth timeline layouts with customizable styling
-* Support for custom data sources via callback-based architecture
-* Customizable styling
+* Initial release with multiple view modes (day, week, month)
+* Pinch-to-zoom gestures for seamless mode transitions
+* Infinite scrolling across all view modes
+* Customizable styling and data sources
 * Example implementation with Google Calendar integration
